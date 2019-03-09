@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Accounting</string>
+
+    <!--fixed strings in app-->
+    <string name="monthly_spend">This month you spent</string>
+    <string name="monthly_left">Monthly balance</string>
+
+    <!--options-->
+    <string name="add_str">Add</string>
+    <string name="setting_str">Setting</string>
+    <string name="show_list_str">Monthly expense</string>
+    <string name="stat_str">Statistics</string>
+</resources>

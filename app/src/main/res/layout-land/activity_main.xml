@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/main_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/app_name"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <LinearLayout
+        android:id="@+id/show_balance_layout"
+        android:layout_width="370dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_app_bar">
+
+        <TextView
+            android:id="@+id/month_spent_tv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:text="@string/monthly_spend"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/money_spent_txt"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:gravity="center_horizontal|center_vertical"
+            android:textAlignment="center"
+            android:textSize="50sp"
+            tools:text="10000" />
+
+        <TextView
+            android:id="@+id/money_left_tv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:text="@string/monthly_left"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/money_left_txt"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:gravity="center_horizontal|center_vertical"
+            android:textAlignment="center"
+            android:textSize="50sp"
+            tools:text="5000" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/option_str_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:fontFamily="sans-serif"
+        android:text="Options"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toEndOf="@+id/show_balance_layout"
+        app:layout_constraintTop_toBottomOf="@+id/main_app_bar" />
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:columnCount="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/show_balance_layout"
+        app:layout_constraintTop_toBottomOf="@+id/option_str_tv"
+        app:rowCount="3">
+
+        <TextView
+            android:id="@+id/add_opt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/add_str"
+            android:textSize="22sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:id="@+id/setting_opt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/setting_str"
+            android:textSize="22sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:id="@+id/list_opt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/show_list_str"
+            android:textSize="22sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+
+        <TextView
+            android:id="@+id/stat_opt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/stat_str"
+            android:textSize="22sp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1" />
+    </android.support.v7.widget.GridLayout>
+
+</android.support.constraint.ConstraintLayout>
