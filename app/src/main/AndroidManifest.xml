@@ -9,11 +9,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".StatsActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="Stats"/>
+        <activity android:name=".ShowExpenseActivity"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".SettingActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="Setting"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
     </application>

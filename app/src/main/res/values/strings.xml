@@ -10,4 +10,15 @@
     <string name="setting_str">Setting</string>
     <string name="show_list_str">Monthly expense</string>
     <string name="stat_str">Statistics</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Add entry strings-->
+    <string name="amount_str">Amount</string>
+    <string name="item_spend_str">Item spend</string>
+    <string name="desc_str">Description</string>
+    <string name="add_title">Add an entry</string>
+    <string name="choice_ok">OK</string>
+    <string name="choice_cancel">Cancel</string>
 </resources>

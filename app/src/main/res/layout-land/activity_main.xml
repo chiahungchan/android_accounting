@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/main_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/app_name"
-        tools:layout_editor_absoluteX="0dp" />
-
     <LinearLayout
         android:id="@+id/show_balance_layout"
         android:layout_width="370dp"
@@ -23,7 +13,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_app_bar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/month_spent_tv"
@@ -73,6 +63,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
         android:text="Options"
         android:textAlignment="center"
@@ -81,7 +72,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toEndOf="@+id/show_balance_layout"
-        app:layout_constraintTop_toBottomOf="@+id/main_app_bar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.GridLayout
         android:layout_width="0dp"
@@ -98,6 +89,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:onClick="launchAnotherActivity"
             android:text="@string/add_str"
             android:textSize="22sp"
             app:layout_columnWeight="1"
@@ -108,6 +100,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:onClick="launchAnotherActivity"
             android:text="@string/setting_str"
             android:textSize="22sp"
             app:layout_columnWeight="1"
@@ -118,6 +111,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:onClick="launchAnotherActivity"
             android:text="@string/show_list_str"
             android:textSize="22sp"
             app:layout_columnWeight="1"
@@ -128,6 +122,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:onClick="launchAnotherActivity"
             android:text="@string/stat_str"
             android:textSize="22sp"
             app:layout_columnWeight="1"
