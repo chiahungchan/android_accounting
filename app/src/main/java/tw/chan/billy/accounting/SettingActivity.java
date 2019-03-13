@@ -1,7 +1,9 @@
 package tw.chan.billy.accounting;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -10,11 +12,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -53,25 +53,6 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        if(notBlankField()){
-            try{
-                // save the inputted data to setting file
-                FileOutputStream settingFileOutput = openFileOutput(USER_FNAME, MODE_PRIVATE);
-                StringBuilder s = new StringBuilder();
-                s.append(editViews.get(0).getText().toString())
-                        .append('\n')
-                        .append(editViews.get(1).getText().toString());
-                settingFileOutput.write(s.toString().getBytes());
-                settingFileOutput.close();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-        }
-        super.onDestroy();
-    }
-
-    @Override
     public void onBackPressed() {
         if(notBlankField()) {
             int monthly = Integer.parseInt(editViews.get(0).getText().toString());
@@ -84,9 +65,30 @@ public class SettingActivity extends AppCompatActivity {
                 return;
             }
             Toast.makeText(this, "Your setting saved!", Toast.LENGTH_SHORT).show();
+            try{
+                // save the inputted data to setting file
+                FileOutputStream settingFileOutput = openFileOutput(USER_FNAME, MODE_PRIVATE);
+                StringBuilder s = new StringBuilder();
+                s.append(editViews.get(0).getText().toString())
+                        .append('\n')
+                        .append(editViews.get(1).getText().toString());
+                settingFileOutput.write(s.toString().getBytes());
+                settingFileOutput.close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
             super.onBackPressed();
         }
         else Toast.makeText(this, "Input fields cannot left blank", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            onBackPressed();
+            //NavUtils.navigateUpFromSameTask(this);
+        }
+        return true;
     }
 
     private boolean notBlankField(){
@@ -97,5 +99,10 @@ public class SettingActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    public void clearDb(View v){
+        // TODO: clear all user data
+        if(v.getId() == R.id.clear_db_btn){}
     }
 }
