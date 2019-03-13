@@ -1,9 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="2"
+    android:orientation="horizontal"
+    android:rowCount="3"
     tools:context=".SettingActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|fill"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:minHeight="70dp"
+        android:text="@string/monthly_bud"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/monthly_budget_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:maxLength="8" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|fill"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:minHeight="70dp"
+        android:text="@string/warning"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/warning_below_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill"
+        android:ems="10"
+        android:hint="@string/warning_hint"
+        android:inputType="numberDecimal"
+        android:maxLength="8" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center|fill"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:minHeight="70dp"
+        android:padding="8dp"
+        android:text="@string/clear_opt"
+        android:textSize="24sp" />
+</GridLayout>
