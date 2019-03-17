@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String AMOUNT_SPENT = "tw.chan.billy.as";
     private static final String BUDGET = "tw.chan.billy.bud";
     private static final String WARN = "tw.chan.billy.wrn";
-    private static final String REMAIN_FILE = "remain.txt";
+    private static final String SPEND_FILE = "spend.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         if(!show_warn_dialog){
             // store the amount of remaining money to file
             try{
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(openFileOutput(REMAIN_FILE, MODE_PRIVATE)));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(openFileOutput(SPEND_FILE, MODE_PRIVATE)));
                 writer.write(String.valueOf(mAmountSpent));
                 writer.write('\n');
                 writer.close();
@@ -164,14 +164,12 @@ public class MainActivity extends AppCompatActivity {
             mWarningAmount = Integer.parseInt(br.readLine());
             fis.close();
             br.close();
+            br = new BufferedReader(new InputStreamReader(openFileInput(SPEND_FILE)));
+            String money_spend = br.readLine();
+            mAmountSpent = Integer.parseInt(money_spend);
+            br.close();
             mLeft = mBudget - mAmountSpent;
             updateViews();
-            br = new BufferedReader(new InputStreamReader(openFileInput(REMAIN_FILE)));
-            TextView tv = findViewById(R.id.money_left_txt);
-            String money_left = br.readLine();
-            tv.setText(money_left);
-            mAmountSpent = Integer.parseInt(money_left);
-            br.close();
         }
         catch (IOException e){
             Log.w(getClass().getSimpleName(), e.getMessage());
