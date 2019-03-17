@@ -25,14 +25,18 @@ public class AddEntryDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.choice_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String amount_str = ((EditText)((AlertDialog)dialog).findViewById(R.id.amount_diag)).getText().toString();
-                        //int amnt = Integer.parseInt(amount_str);
-                        Log.v(getTag(), amount_str);
+                        // TODO: update database
+                        AlertDialog ad = (AlertDialog) dialog;
+                        String amount_str = ((EditText)ad.findViewById(R.id.amount_diag)).getText().toString();
+                        String item_spend_str = ((EditText)ad.findViewById(R.id.item_spend_diag)).getText().toString();
+                        String desc_str = ((EditText)ad.findViewById(R.id.desc_diag)).getText().toString();
+                        DbProcessTask task = new DbProcessTask(getContext());
                     }
                 })
                 .setNegativeButton(R.string.choice_cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
                     }
                 })
                 .setView(R.layout.fragment_add_entry_dialog);

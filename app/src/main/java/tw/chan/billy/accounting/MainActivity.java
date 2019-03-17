@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String AMOUNT_SPENT = "tw.chan.billy.as";
     private static final String BUDGET = "tw.chan.billy.bud";
     private static final String WARN = "tw.chan.billy.wrn";
+    private static final String REMAIN_FILE = "remain.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if(savedInstanceState != null){
-            // TODO: restore number on views
             show_warn_dialog = savedInstanceState.getBoolean(ENTER);
             mLeft = savedInstanceState.getInt(LEFT);
             mAmountSpent = savedInstanceState.getInt(AMOUNT_SPENT);
@@ -45,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
             show_warn_dialog = !f.exists();
 
             if(!show_warn_dialog){
-                // TODO: retrieve user data and show on UI
                 getDataFromFile();
             }
         }
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        // in order to show dialog at the beginning,
+        // alert dialog is made here.
         if (show_warn_dialog) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Personal data not set\nPlease create one.")
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
             builder.show();
+            mAmountSpent = 0;
         }
     }
 
@@ -90,6 +94,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        if(!show_warn_dialog){
+            // store the amount of remaining money to file
+            try{
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(openFileOutput(REMAIN_FILE, MODE_PRIVATE)));
+                writer.write(String.valueOf(mAmountSpent));
+                writer.write('\n');
+                writer.close();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+        super.onStop();
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(ENTER, show_warn_dialog);
         outState.putInt(LEFT, mLeft);
@@ -99,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+    // onclick callback for textViews in mainActivity
     public void launchAnotherActivity(View v){
         Intent intent = new Intent();
         boolean start_activity = false;
@@ -124,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         if(start_activity) startActivity(intent);
     }
 
+    // update two numbers in mainActivity
     private void updateViews(){
         TextView tv = findViewById(R.id.money_spent_txt);
         tv.setText(Integer.toString(mAmountSpent));
@@ -131,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
         tv.setText(Integer.toString(mLeft));
     }
 
+    // retrieve user setting data from file
+    // and update to member values
     private void getDataFromFile(){
         try{
             FileInputStream fis = openFileInput(SettingActivity.USER_FNAME);
@@ -140,9 +164,14 @@ public class MainActivity extends AppCompatActivity {
             mWarningAmount = Integer.parseInt(br.readLine());
             fis.close();
             br.close();
-            mAmountSpent = 0; // for now
             mLeft = mBudget - mAmountSpent;
             updateViews();
+            br = new BufferedReader(new InputStreamReader(openFileInput(REMAIN_FILE)));
+            TextView tv = findViewById(R.id.money_left_txt);
+            String money_left = br.readLine();
+            tv.setText(money_left);
+            mAmountSpent = Integer.parseInt(money_left);
+            br.close();
         }
         catch (IOException e){
             Log.w(getClass().getSimpleName(), e.getMessage());
