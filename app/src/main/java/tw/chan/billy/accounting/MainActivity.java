@@ -1,9 +1,11 @@
 package tw.chan.billy.accounting;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String BUDGET = "tw.chan.billy.bud";
     private static final String WARN = "tw.chan.billy.wrn";
     private static final String SPEND_FILE = "spend.txt";
-    public static final int reqCode = 3;
+    public static final int showExReqCode = 3;
+    public static final int settingReqCode = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,19 +123,46 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+
+        if(requestCode == showExReqCode){
+            if(resultCode == Activity.RESULT_OK && data != null){
+                mAmountSpent = data.getIntExtra(ShowExpenseActivity.SUM, 0);
+                mLeft = mBudget - mAmountSpent;
+                updateViews();
+            }
+        }
+        else if(requestCode == settingReqCode){
+            if(resultCode == Activity.RESULT_OK){
+                try{
+                    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput(SPEND_FILE, MODE_PRIVATE)));
+                    bw.write("0\n");
+                    bw.close();
+                }catch(IOException e){
+                    Log.e(getClass().getSimpleName(), e.getMessage());
+                }
+            }
+        }
+    }
+
     // onclick callback for textViews in mainActivity
     public void launchAnotherActivity(View v){
         Intent intent = new Intent();
         boolean start_activity = false;
+        int req_code = -1;
         switch(v.getId()){
             case R.id.setting_opt:
                 intent.setClass(this, SettingActivity.class);
                 start_activity = true;
                 please_update = true;
+                req_code = settingReqCode;
                 break;
             case R.id.list_opt:
                 intent.setClass(this, ShowExpenseActivity.class);
                 start_activity = true;
+                req_code = showExReqCode;
                 break;
             case R.id.stat_opt:
                 intent.setClass(this, StatsActivity.class);
@@ -143,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment.show(getSupportFragmentManager(), "main");
                 break;
         }
-        if(start_activity) startActivity(intent);
+        if(start_activity) startActivityForResult(intent, req_code);
     }
 
     // update two numbers in mainActivity
@@ -179,5 +209,11 @@ public class MainActivity extends AppCompatActivity {
         catch (IOException e){
             Log.w(getClass().getSimpleName(), e.getMessage());
         }
+    }
+
+    public void updateAmountAfterAdd(int amount){
+        mAmountSpent += amount;
+        mLeft = mBudget - mAmountSpent;
+        updateViews();
     }
 }

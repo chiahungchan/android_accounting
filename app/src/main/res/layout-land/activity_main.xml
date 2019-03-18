@@ -21,11 +21,12 @@
             android:id="@+id/month_spent_tv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
+            android:background="@android:color/black"
             android:gravity="center_vertical"
             android:paddingLeft="8dp"
             android:text="@string/monthly_spend"
+            android:textColor="@android:color/white"
             android:textSize="18sp" />
 
         <TextView
@@ -43,9 +44,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@android:color/black"
             android:gravity="center_vertical"
             android:paddingLeft="8dp"
             android:text="@string/monthly_left"
+            android:textColor="@android:color/white"
             android:textSize="18sp" />
 
         <TextView
@@ -64,8 +67,7 @@
         android:id="@+id/option_str_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:layout_marginTop="8dp"
+        android:background="#ffae00"
         android:fontFamily="sans-serif"
         android:text="Options"
         android:textAlignment="center"
@@ -90,6 +92,7 @@
 
         <TextView
             android:id="@+id/add_opt"
+            style="@style/main_option_bg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -101,6 +104,7 @@
 
         <TextView
             android:id="@+id/setting_opt"
+            style="@style/main_option_bg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -112,6 +116,7 @@
 
         <TextView
             android:id="@+id/list_opt"
+            style="@style/main_option_bg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -123,6 +128,7 @@
 
         <TextView
             android:id="@+id/stat_opt"
+            style="@style/main_option_bg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"

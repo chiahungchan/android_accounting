@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AddEntryDialogFragment" >
+    tools:context=".AddEntryDialogFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +23,8 @@
             style="@style/AlertDialog_edittext"
             android:layout_height="match_parent"
             android:ems="10"
-            android:inputType="numberDecimal" />
+            android:inputType="number"
+            android:maxLength="6" />
     </LinearLayout>
 
     <LinearLayout

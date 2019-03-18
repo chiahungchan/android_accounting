@@ -1,7 +1,9 @@
 package tw.chan.billy.accounting;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,12 +23,14 @@ public class SettingActivity extends AppCompatActivity {
     public static final String USER_FNAME = "user_settings.txt";
     private ArrayList<EditText> editViews;
     private int viewIds[] = {R.id.monthly_budget_edit, R.id.warning_below_edit};
+    private boolean set_zero;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         editViews = new ArrayList<>();
+        set_zero = false;
 
         // get editTexts for further processing
         for(int id: viewIds){
@@ -74,6 +78,8 @@ public class SettingActivity extends AppCompatActivity {
                         .append(editViews.get(1).getText().toString());
                 settingFileOutput.write(s.toString().getBytes());
                 settingFileOutput.close();
+                if(set_zero)
+                    setResult(Activity.RESULT_OK);
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -102,7 +108,22 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void clearDb(View v){
-        // TODO: clear all user data
-        if(v.getId() == R.id.clear_db_btn){}
+        if(v.getId() == R.id.clear_db_btn){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            final View k = v;
+            builder.setTitle("Warning")
+                    .setMessage("All entries will be DELETED!\nAre you sure?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            DbProcessTask task = new DbProcessTask(k.getContext(), null, null);
+                            task.execute(DbProcessTask.DELETE, null);
+                            set_zero = true;
+                            Toast.makeText(k.getContext(), "All entries deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        }
     }
 }

@@ -54,8 +54,14 @@ public class ExpenseDbHelper extends SQLiteOpenHelper {
     }
     public void dbDelete(String rowID){
         SQLiteDatabase db = getWritableDatabase();
-        String rowIDs[] = { rowID };
-        int e = db.delete(DbColumns.TABLE_NAME, DbColumns._ID + " = ?", rowIDs);
+        int e;
+        if(rowID == null){
+            e = db.delete(DbColumns.TABLE_NAME, null, null);
+        }
+        else{
+            String rowIDs[] = { rowID };
+            e = db.delete(DbColumns.TABLE_NAME, DbColumns._ID + " = ?", rowIDs);
+        }
         Log.v(getClass().getSimpleName(), String.valueOf(e));
         db.close();
     }

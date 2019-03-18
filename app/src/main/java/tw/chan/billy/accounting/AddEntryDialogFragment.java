@@ -46,7 +46,6 @@ public class AddEntryDialogFragment extends DialogFragment {
         builder.setPositiveButton(R.string.choice_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO: update database
                         AlertDialog ad = (AlertDialog) dialog;
                         String amount_str = ((EditText)ad.findViewById(R.id.amount_diag)).getText().toString();
                         String item_spend_str = ((EditText)ad.findViewById(R.id.item_spend_diag)).getText().toString();
@@ -62,6 +61,7 @@ public class AddEntryDialogFragment extends DialogFragment {
                         if(launchActivity instanceof MainActivity){
                             // insert into DB
                             task.execute(DbProcessTask.INSERT, date_str, amount_str, null, item_spend_str, desc_str);
+                            ((MainActivity)launchActivity).updateAmountAfterAdd(Integer.parseInt(amount_str));
                         }
                         else if(launchActivity instanceof ShowExpenseActivity){
                             task.execute(DbProcessTask.UPDATE, date_str, amount_str, null, String.valueOf(rowID),item_spend_str, desc_str);

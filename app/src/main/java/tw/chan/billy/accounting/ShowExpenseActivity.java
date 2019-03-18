@@ -1,5 +1,7 @@
 package tw.chan.billy.accounting;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -18,6 +21,7 @@ public class ShowExpenseActivity extends AppCompatActivity {
 
     RecyclerView mRootView;
     ArrayList<ExpenseItem> mData;
+    public static final String SUM = "tw.chan.billy.sum";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,40 @@ public class ShowExpenseActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.show_expense_menu, menu);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        String sel[] = {"sum("+ ExpenseDbHelper.DbColumns.AMOUNT+")"};
+        DbProcessTask task = new DbProcessTask(this, sel, null);
+        task.execute(DbProcessTask.QUERY, null);
+        int sum = 0;
+        try{
+            Cursor db_result = task.get(5, TimeUnit.SECONDS);
+            while(db_result.moveToNext()){
+                sum = db_result.getInt(0);
+            }
+        }catch(Exception e){
+            Log.e(getClass().getSimpleName(), e.getMessage());
+        }
+
+        Intent intent = new Intent();
+        intent.putExtra(SUM, sum);
+        setResult(Activity.RESULT_OK, intent);
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            case R.id.select_delete:
+                // TODO: implement selection
+                break;
+        }
         return true;
     }
 

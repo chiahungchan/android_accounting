@@ -1,5 +1,7 @@
 package tw.chan.billy.accounting;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -23,13 +25,37 @@ public class ExpenseAdapter extends RecyclerView.Adapter {
         mManager = new WeakReference<>(manager);
     }
 
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        ExpenseItem curr = list.get(i);
+        ExpenseAdapter.ViewHolder vholder = (ExpenseAdapter.ViewHolder)viewHolder;
+        vholder.mDateTv.setText(curr.getmDate());
+        vholder.mAmountTv.setText(curr.getmAmount());
+        vholder.mItemTv.setText(curr.getmItem());
+        Context c = ((ViewHolder) viewHolder).mRootView.getContext();
+        if(i%2 == 0){
+            ((ViewHolder) viewHolder).mRootView.setBackgroundColor(c.getResources().getColor(R.color.clickable_color));
+        }
+        else ((ViewHolder) viewHolder).mRootView.setBackgroundColor(Color.WHITE);
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+        View itemView = inflater.inflate(R.layout.expense_list_item, viewGroup, false);
+        return new ExpenseAdapter.ViewHolder(itemView);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView mDateTv, mItemTv, mAmountTv;
+        public View mRootView;
         public ViewHolder(View v){
             super(v);
             mItemTv = v.findViewById(R.id.item_short_desc);
             mAmountTv = v.findViewById(R.id.item_value);
             mDateTv = v.findViewById(R.id.item_date);
+            mRootView = v;
             v.setOnClickListener(this);
         }
 
@@ -52,23 +78,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter {
                 dialog.show(mManager.get(), "adapter");
             }
         }
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View itemView = inflater.inflate(R.layout.expense_list_item, viewGroup, false);
-        return new ExpenseAdapter.ViewHolder(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        ExpenseItem curr = list.get(i);
-        ExpenseAdapter.ViewHolder vholder = (ExpenseAdapter.ViewHolder)viewHolder;
-        vholder.mDateTv.setText(curr.getmDate());
-        vholder.mAmountTv.setText(curr.getmAmount());
-        vholder.mItemTv.setText(curr.getmItem());
     }
 
     @Override
