@@ -24,4 +24,8 @@
     <string name="warning">Warning</string>
     <string name="warning_hint">If your remaining below this\nvalue, we will warn you.</string>
     <string name="clear_opt">Clear all data</string>
+
+    <!--Menu titles-->
+    <string name="menu_sel_del">Select and delete</string>
+    <string name="menu_complete">Complete</string>
 </resources>

@@ -47,10 +47,12 @@ public class MainActivity extends AppCompatActivity {
             updateViews();
         }
         else{
+            // check whether everything is new
             File f = new File(getFilesDir(), SettingActivity.USER_FNAME);
             show_warn_dialog = !f.exists();
 
             if(!show_warn_dialog){
+                // previously used, just retrieve from files
                 getDataFromFileAndUpdate();
             }
         }
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // in order to show dialog at the beginning,
-        // alert dialog is made here.
+        // alert dialog is made after super.onStart().
         if (show_warn_dialog) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Personal data not set\nPlease create one.")
@@ -127,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
 
+        // user may update entries in ShowExpenseActivity
+        // get result from this and update views in MainActivity
         if(requestCode == showExReqCode){
             if(resultCode == Activity.RESULT_OK && data != null){
                 mAmountSpent = data.getIntExtra(ShowExpenseActivity.SUM, 0);
@@ -134,6 +138,11 @@ public class MainActivity extends AppCompatActivity {
                 updateViews();
             }
         }
+
+        // user may delete data
+        // do corresponding work here
+        // because SettingActivity sets "please_update" to true
+        // write the result directly to file
         else if(requestCode == settingReqCode){
             if(resultCode == Activity.RESULT_OK){
                 try{
@@ -147,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // onclick callback for textViews in mainActivity
+    // onclick callback for Options in mainActivity
     public void launchAnotherActivity(View v){
         Intent intent = new Intent();
         boolean start_activity = false;

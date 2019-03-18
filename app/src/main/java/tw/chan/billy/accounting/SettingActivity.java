@@ -3,8 +3,11 @@ package tw.chan.billy.accounting;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -57,42 +60,48 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        if(notBlankField()) {
-            int monthly = Integer.parseInt(editViews.get(0).getText().toString());
-            int warning = Integer.parseInt(editViews.get(1).getText().toString());
-            if(monthly - warning < 0) {
-                // it's impossible that warning value is greater than monthly budget
-                // so I check these values here.
-                Toast.makeText(this, "Value in \"Warning\" cannot be greater than that in \"Monthly budget\"",
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Toast.makeText(this, "Your setting saved!", Toast.LENGTH_SHORT).show();
-            try{
-                // save the inputted data to setting file
-                FileOutputStream settingFileOutput = openFileOutput(USER_FNAME, MODE_PRIVATE);
-                StringBuilder s = new StringBuilder();
-                s.append(editViews.get(0).getText().toString())
-                        .append('\n')
-                        .append(editViews.get(1).getText().toString());
-                settingFileOutput.write(s.toString().getBytes());
-                settingFileOutput.close();
-                if(set_zero)
-                    setResult(Activity.RESULT_OK);
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-            super.onBackPressed();
-        }
-        else Toast.makeText(this, "Input fields cannot left blank", Toast.LENGTH_SHORT).show();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.setting_menu, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
-            onBackPressed();
-            //NavUtils.navigateUpFromSameTask(this);
+        switch(item.getItemId()){
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                break;
+            case R.id.setting_complete:
+                if(notBlankField()) {
+                    int monthly = Integer.parseInt(editViews.get(0).getText().toString());
+                    int warning = Integer.parseInt(editViews.get(1).getText().toString());
+                    if(monthly - warning < 0) {
+                        // it's impossible that warning value is greater than monthly budget
+                        // so I check these values here.
+                        Toast.makeText(this, "Value in \"Warning\" cannot be greater than that in \"Monthly budget\"",
+                                Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                    Toast.makeText(this, "Your setting saved!", Toast.LENGTH_SHORT).show();
+                    try{
+                        // save the inputted data to setting file
+                        FileOutputStream settingFileOutput = openFileOutput(USER_FNAME, MODE_PRIVATE);
+                        StringBuilder s = new StringBuilder();
+                        s.append(editViews.get(0).getText().toString())
+                                .append('\n')
+                                .append(editViews.get(1).getText().toString());
+                        settingFileOutput.write(s.toString().getBytes());
+                        settingFileOutput.close();
+                        if(set_zero)
+                            setResult(Activity.RESULT_OK);
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                    finish();
+                }
+                else Toast.makeText(this, "Input fields cannot left blank", Toast.LENGTH_SHORT).show();
+                break;
         }
         return true;
     }

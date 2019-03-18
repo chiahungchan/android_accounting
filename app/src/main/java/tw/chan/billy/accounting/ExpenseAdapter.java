@@ -33,7 +33,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter {
         vholder.mAmountTv.setText(curr.getmAmount());
         vholder.mItemTv.setText(curr.getmItem());
         Context c = ((ViewHolder) viewHolder).mRootView.getContext();
-        if(i%2 == 0){
+        if(i%2 == 0){ // stripe effect
             ((ViewHolder) viewHolder).mRootView.setBackgroundColor(c.getResources().getColor(R.color.clickable_color));
         }
         else ((ViewHolder) viewHolder).mRootView.setBackgroundColor(Color.WHITE);

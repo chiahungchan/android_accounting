@@ -38,10 +38,13 @@ public class ShowExpenseActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        // because asyncTask may last long
+        // implemented in onStart() to prevent unresponsive UI
         DbProcessTask task = new DbProcessTask(this, null, null);
         task.execute(DbProcessTask.QUERY, null);
         try{
-            Cursor result = task.get(5000, TimeUnit.SECONDS);
+            Cursor result = task.get(5, TimeUnit.SECONDS);
             if(result != null){
                 processDbData(result);
                 ProgressBar pgb = findViewById(R.id.show_item_pb);
@@ -65,6 +68,8 @@ public class ShowExpenseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
+        // tell MainActivity total amount of money I spent
         String sel[] = {"sum("+ ExpenseDbHelper.DbColumns.AMOUNT+")"};
         DbProcessTask task = new DbProcessTask(this, sel, null);
         task.execute(DbProcessTask.QUERY, null);

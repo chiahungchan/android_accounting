@@ -34,7 +34,7 @@ public class ExpenseDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // do nothing
+        // do nothing for now
     }
 
     public void dbInsert(String date, String amount, String clAss, String item, String desc){
