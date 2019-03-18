@@ -3,7 +3,6 @@ package tw.chan.billy.accounting;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -67,10 +66,17 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        if(set_zero)
+            setResult(Activity.RESULT_OK);
+        super.onBackPressed();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                onBackPressed();
                 break;
             case R.id.setting_complete:
                 if(notBlankField()) {
