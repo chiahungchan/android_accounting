@@ -51,7 +51,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <TextView
@@ -65,8 +65,9 @@
             style="@style/AlertDialog_edittext"
             android:layout_height="match_parent"
             android:ems="10"
+            android:gravity="bottom"
             android:hint="(Optional)"
-            android:inputType="textMultiLine"
+            android:inputType="textLongMessage"
             android:maxLength="50" />
     </LinearLayout>
 </LinearLayout>

@@ -25,7 +25,7 @@ public class SettingActivity extends AppCompatActivity {
     public static final String USER_FNAME = "user_settings.txt";
     private ArrayList<EditText> editViews;
     private int viewIds[] = {R.id.monthly_budget_edit, R.id.warning_below_edit};
-    private boolean set_zero;
+    private boolean set_zero, newbie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class SettingActivity extends AppCompatActivity {
         File f = new File(getFilesDir(), USER_FNAME);
         if(f.exists()) {
             try {
+                newbie = false;
                 FileInputStream settingFileInput = openFileInput(USER_FNAME);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(settingFileInput));
                 int res[] = {R.id.monthly_budget_edit, R.id.warning_below_edit};
@@ -56,6 +57,7 @@ public class SettingActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        else newbie = true;
     }
 
     @Override
@@ -69,6 +71,10 @@ public class SettingActivity extends AppCompatActivity {
     public void onBackPressed() {
         if(set_zero)
             setResult(Activity.RESULT_OK);
+        if(newbie){
+            Toast.makeText(this, "Press \"complete\" to save", Toast.LENGTH_SHORT).show();
+            return;
+        }
         super.onBackPressed();
     }
 
