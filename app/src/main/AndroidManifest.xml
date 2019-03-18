@@ -13,6 +13,7 @@
             android:parentActivityName=".MainActivity"
             android:label="Stats"/>
         <activity android:name=".ShowExpenseActivity"
+            android:label="Monthly Expense"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".SettingActivity"
             android:parentActivityName=".MainActivity"

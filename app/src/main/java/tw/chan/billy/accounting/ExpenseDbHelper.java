@@ -2,6 +2,7 @@ package tw.chan.billy.accounting;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
@@ -12,13 +13,11 @@ public class ExpenseDbHelper extends SQLiteOpenHelper {
 
     private static int DB_VERSION = 1;
 
-    private static class DbColumns implements BaseColumns{
-        public static final String TABLE_NAME = "expense";
-        public static final String DATE = "date";
-        public static final String AMOUNT = "amount";
-        public static final String ITEM = "itm";
-        public static final String DESC = "des";
-        public static final String CLASS = "class";
+    public Cursor dbQuery(String[] columns, String selection, String[] selArgs, String limit){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query(DbColumns.TABLE_NAME, columns, selection, selArgs, null, null, null, limit);
+        //db.close();
+        return cursor;
     }
 
     public ExpenseDbHelper(Context context){
@@ -61,7 +60,14 @@ public class ExpenseDbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    // TODO: query method
+    public static class DbColumns implements BaseColumns{
+        public static final String TABLE_NAME = "expense";
+        public static final String DATE = "date";
+        public static final String AMOUNT = "amount";
+        public static final String ITEM = "itm";
+        public static final String DESC = "des";
+        public static final String CLASS = "class";
+    }
 
     private ContentValues parseCV(String date, String amount, String clAss, String item, String desc){
         ContentValues cv = new ContentValues();

@@ -1,34 +1,33 @@
 package tw.chan.billy.accounting;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import java.lang.ref.WeakReference;
-
-public class DbProcessTask extends AsyncTask<String, Void, Void> {
+public class DbProcessTask extends AsyncTask<String, Void, Cursor> {
 
     public static final String UPDATE = "upd";
     public static final String INSERT = "ins";
     public static final String DELETE = "del";
     public static final String QUERY = "que";
     private String LOG_TAG = getClass().getSimpleName();
-    private WeakReference<Context> mCallingContext;
     private ExpenseDbHelper mHelper;
+    private String[] qColumns, qSelArg;
 
-    public DbProcessTask(Context context){
-        mCallingContext = new WeakReference<>(context);
-        mHelper = new ExpenseDbHelper(mCallingContext.get());
+    public DbProcessTask(Context context, String[] c, String[] s){
+        mHelper = new ExpenseDbHelper(context);
+        qColumns = c;
+        qSelArg = s;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
-        Toast.makeText(mCallingContext.get(), "database updated!", Toast.LENGTH_SHORT).show();
+    protected void onPostExecute(Cursor v) {
+        // do nothing for now
     }
 
     @Override
-    protected Void doInBackground(String... strings) {
+    protected Cursor doInBackground(String... strings) {
         switch(strings[0]){
             case UPDATE:
                 if(strings.length != 7){
@@ -36,6 +35,7 @@ public class DbProcessTask extends AsyncTask<String, Void, Void> {
                     return null;
                 }
                 mHelper.dbUpdate(strings[1], strings[2], strings[3], strings[4], strings[5], strings[6]);
+                //               date        amount      class       rowID       item        desc
                 break;
             case INSERT:
                 if(strings.length != 6){
@@ -43,6 +43,7 @@ public class DbProcessTask extends AsyncTask<String, Void, Void> {
                     return null;
                 }
                 mHelper.dbInsert(strings[1], strings[2], strings[3], strings[4], strings[5]);
+                //               date        amount      class       item        desc
                 break;
             case DELETE:
                 if(strings.length != 2){
@@ -50,10 +51,15 @@ public class DbProcessTask extends AsyncTask<String, Void, Void> {
                     return null;
                 }
                 mHelper.dbDelete(strings[1]);
+                //               rowID
                 break;
             case QUERY:
-                // TODO
-                break;
+                if(strings.length != 2){
+                    Log.e(LOG_TAG, "delete: argument number mismatch");
+                    return null;
+                }
+                return mHelper.dbQuery(qColumns, strings[1], qSelArg, null);
+                //                               selection
         }
         return null;
     }
