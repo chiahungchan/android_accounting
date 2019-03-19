@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -97,6 +99,33 @@ public class ShowExpenseActivity extends AppCompatActivity {
                 break;
             case R.id.select_delete:
                 // TODO: implement selection
+                ActionMode mode = startActionMode(new ActionMode.Callback() {
+                    @Override
+                    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                        MenuInflater inflater = mode.getMenuInflater();
+                        inflater.inflate(R.menu.show_action_mode, menu);
+                        mode.setTitle(R.string.menu_sel_del);
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                        if(item.getItemId() == R.id.item_delete){
+                            // TODO: delete selected entries
+                            mode.finish();
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public void onDestroyActionMode(ActionMode mode) {
+                    }
+                });
                 break;
         }
         return true;

@@ -28,4 +28,5 @@
     <!--Menu titles-->
     <string name="menu_sel_del">Select and delete</string>
     <string name="menu_complete">Complete</string>
+    <string name="delete">Delete</string>
 </resources>
