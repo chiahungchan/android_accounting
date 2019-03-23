@@ -60,11 +60,19 @@ public class ExpenseAdapter extends RecyclerView.Adapter {
     }
 
     public void setInActionMode(boolean mode){
+
+        // adapter has to be notified if activity is in action mode
+        // to handle different onclick behavior
         in_action_mode = mode;
         if(!mode) {
             set.clear();
             notifyDataSetChanged(); // in order to change background color
         }
+    }
+
+    public TreeSet<ExpenseItem> getSelectedSet(){
+        if(!set.isEmpty()) return new TreeSet<>(set);
+        else return null;
     }
 
     @Override

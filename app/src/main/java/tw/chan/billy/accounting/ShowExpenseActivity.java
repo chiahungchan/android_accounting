@@ -17,6 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
 public class ShowExpenseActivity extends AppCompatActivity {
@@ -98,7 +100,6 @@ public class ShowExpenseActivity extends AppCompatActivity {
                 onBackPressed();
                 break;
             case R.id.select_delete:
-                // TODO: implement selection
                 startActionMode(new ActionMode.Callback() {
                     @Override
                     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -119,7 +120,26 @@ public class ShowExpenseActivity extends AppCompatActivity {
 
                     @Override
                     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                        if(item.getItemId() == R.id.item_delete){}
+                        if(item.getItemId() == R.id.item_delete){
+
+                            // delete the selected item(s)
+                            RecyclerView.Adapter adapter = mRootView.getAdapter();
+                            if(adapter instanceof ExpenseAdapter){
+                                TreeSet<ExpenseItem> set = ((ExpenseAdapter) adapter).getSelectedSet();
+                                for(Iterator<ExpenseItem> it = set.iterator(); it.hasNext();){
+                                    ExpenseItem del_itm = it.next();
+                                    DbProcessTask task = new DbProcessTask(mRootView.getContext(), null, null);
+                                    int list_idx = mData.indexOf(del_itm);
+                                    if(list_idx < 0){
+                                        Log.e(getClass().getSimpleName(), "Error deleting item");
+                                        return true;
+                                    }
+                                    task.execute(DbProcessTask.DELETE, String.valueOf(del_itm.getmID()));
+                                    mData.remove(del_itm);
+                                    adapter.notifyItemRemoved(list_idx);
+                                }
+                            }
+                        }
                         return true;
                     }
 

@@ -40,7 +40,7 @@ public class AddEntryDialogFragment extends DialogFragment {
             et.setText(item);
             et = v.findViewById(R.id.desc_diag);
             et.setText(desc);
-            builder.setTitle("Edit");
+            builder.setTitle(R.string.edit);
         }
         else builder.setTitle(R.string.add_title);
         builder.setPositiveButton(R.string.choice_ok, new DialogInterface.OnClickListener() {
@@ -53,7 +53,7 @@ public class AddEntryDialogFragment extends DialogFragment {
                         Calendar today = Calendar.getInstance();
                         String date_str = String.valueOf(today.get(Calendar.MONTH)+1) + "/" + String.valueOf(today.get(Calendar.DAY_OF_MONTH));
                         if(amount_str.length() == 0 || item_spend_str.length() == 0){
-                            Toast.makeText(getContext(), "Blank field detected!\nNo updates", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), R.string.no_update_msg, Toast.LENGTH_SHORT).show();
                             return;
                         }
                         Activity launchActivity = getActivity();

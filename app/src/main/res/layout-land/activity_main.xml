@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:background="#ffae00"
         android:fontFamily="sans-serif"
-        android:text="Options"
+        android:text="@string/option_str"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"

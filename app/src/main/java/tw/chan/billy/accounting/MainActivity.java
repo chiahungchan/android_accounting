@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         if (show_warn_dialog) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Personal data not set\nPlease create one.")
-                    .setTitle("Warning")
+                    .setTitle(R.string.warning)
                     .setPositiveButton(R.string.choice_ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -191,9 +191,10 @@ public class MainActivity extends AppCompatActivity {
         tv.setText(Integer.toString(mAmountSpent));
         tv = findViewById(R.id.money_left_txt);
         tv.setText(Integer.toString(mLeft));
-        if(mLeft <= mWarningAmount){
+        if(mLeft < 0)
+            tv.setBackgroundResource(android.R.color.holo_red_dark);
+        else if(mLeft <= mWarningAmount)
             tv.setBackgroundColor(Color.YELLOW);
-        }
         else tv.setBackgroundColor(Color.WHITE);
     }
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">記帳</string>
+    <string name="monthly_spend">你花了</string>
+    <string name="monthly_left">你還剩下</string>
+    <string name="add_str">新增</string>
+    <string name="setting_str">設定</string>
+    <string name="show_list_str">花費清單</string>
+    <string name="stat_str">統計</string>
+    <string name="amount_str">金額</string>
+    <string name="item_spend_str">項目</string>
+    <string name="desc_str">簡述</string>
+    <string name="add_title">新增花費</string>
+    <string name="choice_ok">OK</string>
+    <string name="choice_cancel">取消</string>
+    <string name="edit">編輯</string>
+    <string name="no_update_msg">前2項不可空白</string>
+    <string name="monthly_bud">預算金額</string>
+    <string name="warning">警告金額</string>
+    <string name="warning_hint">若餘額低於此金額會提醒您</string>
+    <string name="clear_opt">清除所有資料</string>
+    <string name="blank_msg">前2項不可空白</string>
+    <string name="invalid_number_msg">警告金額不可大於預算</string>
+    <string name="setting_saved_msg">已儲存</string>
+    <string name="del_all_warn_msg">所有資料將被刪除! 您確定嗎?</string>
+    <string name="deleted_msg">所有資料已刪除</string>
+    <string name="delete">刪除</string>
+    <string name="menu_complete">完成</string>
+    <string name="tell_save_msg">請按「完成」來儲存</string>
+    <string name="dialog_pos">好</string>
+    <string name="dialog_neg">不要</string>
+    <string name="menu_sel_del">選擇並刪除</string>
+    <string name="optional_hint">(選填)</string>
+    <string name="option_str">選項</string>
+</resources>

@@ -72,7 +72,7 @@ public class SettingActivity extends AppCompatActivity {
         if(set_zero)
             setResult(Activity.RESULT_OK);
         if(newbie){
-            Toast.makeText(this, "Press \"complete\" to save", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.tell_save_msg, Toast.LENGTH_SHORT).show();
             return;
         }
         super.onBackPressed();
@@ -91,11 +91,10 @@ public class SettingActivity extends AppCompatActivity {
                     if(monthly - warning < 0) {
                         // it's impossible that warning value is greater than monthly budget
                         // so I check these values here.
-                        Toast.makeText(this, "Value in \"Warning\" cannot be greater than that in \"Monthly budget\"",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.invalid_number_msg,Toast.LENGTH_SHORT).show();
                         return true;
                     }
-                    Toast.makeText(this, "Your setting saved!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.setting_saved_msg, Toast.LENGTH_SHORT).show();
                     try{
                         // save the inputted data to setting file
                         FileOutputStream settingFileOutput = openFileOutput(USER_FNAME, MODE_PRIVATE);
@@ -112,7 +111,7 @@ public class SettingActivity extends AppCompatActivity {
                     }
                     finish();
                 }
-                else Toast.makeText(this, "Input fields cannot left blank", Toast.LENGTH_SHORT).show();
+                else Toast.makeText(this, R.string.blank_msg, Toast.LENGTH_SHORT).show();
                 break;
         }
         return true;
@@ -132,18 +131,18 @@ public class SettingActivity extends AppCompatActivity {
         if(v.getId() == R.id.clear_db_btn){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             final View k = v;
-            builder.setTitle("Warning")
-                    .setMessage("All entries will be DELETED!\nAre you sure?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            builder.setTitle(R.string.warning)
+                    .setMessage(R.string.del_all_warn_msg)
+                    .setPositiveButton(R.string.dialog_pos, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             DbProcessTask task = new DbProcessTask(k.getContext(), null, null);
                             task.execute(DbProcessTask.DELETE, null);
                             set_zero = true;
-                            Toast.makeText(k.getContext(), "All entries deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(k.getContext(), R.string.deleted_msg, Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .setNegativeButton("No", null)
+                    .setNegativeButton(R.string.dialog_neg, null)
                     .show();
         }
     }

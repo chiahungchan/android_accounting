@@ -1,14 +1,15 @@
 <resources>
     <string name="app_name">Accounting</string>
 
-    <!--fixed strings in app-->
-    <string name="monthly_spend">This month you spent</string>
-    <string name="monthly_left">Monthly balance</string>
+    <!--fixed strings in mainActivity-->
+    <string name="monthly_spend">You spent</string>
+    <string name="monthly_left">Balance</string>
+    <string name="option_str">Options</string>
 
-    <!--options-->
+    <!--activity titles-->
     <string name="add_str">Add</string>
     <string name="setting_str">Setting</string>
-    <string name="show_list_str">Monthly expense</string>
+    <string name="show_list_str">Expense</string>
     <string name="stat_str">Statistics</string>
 
     <!--Add entry strings-->
@@ -18,12 +19,23 @@
     <string name="add_title">Add an entry</string>
     <string name="choice_ok">OK</string>
     <string name="choice_cancel">Cancel</string>
+    <string name="edit">Edit</string>
+    <string name="optional_hint">(optional)</string>
+    <string name="no_update_msg">Blank field detected!\nNo updates</string>
 
     <!--Setting activity-->
-    <string name="monthly_bud">Monthly\nBudget:</string>
+    <string name="monthly_bud">Budget:</string>
     <string name="warning">Warning</string>
     <string name="warning_hint">If your remaining below this\nvalue, we will warn you.</string>
     <string name="clear_opt">Clear all data</string>
+    <string name="blank_msg">Input fields cannot left blank</string>
+    <string name="invalid_number_msg">Value in \"Warning\" cannot be greater than that in budget</string>
+    <string name="setting_saved_msg">Your setting saved!</string>
+    <string name="del_all_warn_msg">All entries will be DELETED!\nAre you sure?</string>
+    <string name="deleted_msg">All entries deleted</string>
+    <string name="tell_save_msg">Press \"complete\" to save</string>
+    <string name="dialog_pos">Yes</string>
+    <string name="dialog_neg">No</string>
 
     <!--Menu titles-->
     <string name="menu_sel_del">Select and delete</string>
