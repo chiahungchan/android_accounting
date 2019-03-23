@@ -126,6 +126,7 @@ public class ShowExpenseActivity extends AppCompatActivity {
                             RecyclerView.Adapter adapter = mRootView.getAdapter();
                             if(adapter instanceof ExpenseAdapter){
                                 TreeSet<ExpenseItem> set = ((ExpenseAdapter) adapter).getSelectedSet();
+                                if(set == null) return true;
                                 for(Iterator<ExpenseItem> it = set.iterator(); it.hasNext();){
                                     ExpenseItem del_itm = it.next();
                                     DbProcessTask task = new DbProcessTask(mRootView.getContext(), null, null);
