@@ -33,7 +33,7 @@ public class ShowExpenseActivity extends AppCompatActivity {
         mData = new ArrayList<>();
         mRootView = findViewById(R.id.show_item_rv);
         mRootView.setLayoutManager(new LinearLayoutManager(this));
-        ExpenseAdapter adapter = new ExpenseAdapter(mData, getSupportFragmentManager());
+        ExpenseAdapter adapter = new ExpenseAdapter(mData, getSupportFragmentManager(), false);
         mRootView.setAdapter(adapter);
     }
 
@@ -99,12 +99,16 @@ public class ShowExpenseActivity extends AppCompatActivity {
                 break;
             case R.id.select_delete:
                 // TODO: implement selection
-                ActionMode mode = startActionMode(new ActionMode.Callback() {
+                startActionMode(new ActionMode.Callback() {
                     @Override
                     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                         MenuInflater inflater = mode.getMenuInflater();
                         inflater.inflate(R.menu.show_action_mode, menu);
                         mode.setTitle(R.string.menu_sel_del);
+                        RecyclerView.Adapter a = mRootView.getAdapter();
+                        if(a instanceof ExpenseAdapter){
+                            ((ExpenseAdapter) a).setInActionMode(true);
+                        }
                         return true;
                     }
 
@@ -115,15 +119,16 @@ public class ShowExpenseActivity extends AppCompatActivity {
 
                     @Override
                     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                        if(item.getItemId() == R.id.item_delete){
-                            // TODO: delete selected entries
-                            mode.finish();
-                        }
+                        if(item.getItemId() == R.id.item_delete){}
                         return true;
                     }
 
                     @Override
                     public void onDestroyActionMode(ActionMode mode) {
+                        RecyclerView.Adapter a = mRootView.getAdapter();
+                        if(a instanceof ExpenseAdapter){
+                            ((ExpenseAdapter) a).setInActionMode(false);
+                        }
                     }
                 });
                 break;

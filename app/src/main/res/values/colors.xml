@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="clickable_color">#cbedd7</color>
+    <color name="select_bg">#0260f7</color>
 </resources>

@@ -1,7 +1,6 @@
 package tw.chan.billy.accounting;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -13,16 +12,28 @@ import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.TreeSet;
 
 public class ExpenseAdapter extends RecyclerView.Adapter {
 
     private ArrayList<ExpenseItem> list;
     public static final String POSITION = "tw.chan.billy.pos";
     private WeakReference<FragmentManager> mManager;
+    private boolean in_action_mode;
+    private TreeSet<ExpenseItem> set;
 
-    public ExpenseAdapter(ArrayList<ExpenseItem> arrayList, FragmentManager manager){
+    public ExpenseAdapter(ArrayList<ExpenseItem> arrayList, FragmentManager manager, boolean action_mode){
         list = arrayList;
         mManager = new WeakReference<>(manager);
+        in_action_mode = action_mode;
+        set = new TreeSet<>(new Comparator<ExpenseItem>() {
+            @Override
+            public int compare(ExpenseItem o1, ExpenseItem o2) {
+                long id1 = o1.getmID(), id2 = o2.getmID();
+                return Long.compare(id1, id2);
+            }
+        });
     }
 
     @Override
@@ -33,10 +44,11 @@ public class ExpenseAdapter extends RecyclerView.Adapter {
         vholder.mAmountTv.setText(curr.getmAmount());
         vholder.mItemTv.setText(curr.getmItem());
         Context c = ((ViewHolder) viewHolder).mRootView.getContext();
-        if(i%2 == 0){ // stripe effect
-            ((ViewHolder) viewHolder).mRootView.setBackgroundColor(c.getResources().getColor(R.color.clickable_color));
+        if(set.contains(curr))
+            ((ViewHolder) viewHolder).mRootView.setBackgroundResource(R.color.select_bg);
+        else{
+            ((ViewHolder) viewHolder).mRootView.setBackgroundResource((i%2 == 0) ? R.color.clickable_color : android.R.color.white);
         }
-        else ((ViewHolder) viewHolder).mRootView.setBackgroundColor(Color.WHITE);
     }
 
     @NonNull
@@ -45,6 +57,19 @@ public class ExpenseAdapter extends RecyclerView.Adapter {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View itemView = inflater.inflate(R.layout.expense_list_item, viewGroup, false);
         return new ExpenseAdapter.ViewHolder(itemView);
+    }
+
+    public void setInActionMode(boolean mode){
+        in_action_mode = mode;
+        if(!mode) {
+            set.clear();
+            notifyDataSetChanged(); // in order to change background color
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return list.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -64,25 +89,31 @@ public class ExpenseAdapter extends RecyclerView.Adapter {
             int pos = getAdapterPosition();
             if(pos != RecyclerView.NO_POSITION){
                 ExpenseItem curr = list.get(pos);
-
-                // show edit dialog
-                // pass text to fragment
-                AddEntryDialogFragment dialog = new AddEntryDialogFragment();
-                Bundle b = new Bundle();
-                b.putString(ExpenseDbHelper.DbColumns.AMOUNT, curr.getmAmount());
-                b.putString(ExpenseDbHelper.DbColumns.ITEM, curr.getmItem());
-                b.putString(ExpenseDbHelper.DbColumns.DESC, curr.getmDesc());
-                b.putInt(POSITION, pos);
-                b.putLong(ExpenseDbHelper.DbColumns._ID, curr.getmID());
-                dialog.setArguments(b);
-                dialog.show(mManager.get(), "adapter");
+                if(in_action_mode){
+                    if(set.contains(curr)){
+                        set.remove(curr);
+                        v.setBackgroundResource((pos%2 == 0) ? R.color.clickable_color : android.R.color.white);
+                    }
+                    else{
+                        set.add(curr);
+                        v.setBackgroundResource(R.color.select_bg);
+                    }
+                }
+                else{
+                    // show edit dialog
+                    // pass text to fragment
+                    AddEntryDialogFragment dialog = new AddEntryDialogFragment();
+                    Bundle b = new Bundle();
+                    b.putString(ExpenseDbHelper.DbColumns.AMOUNT, curr.getmAmount());
+                    b.putString(ExpenseDbHelper.DbColumns.ITEM, curr.getmItem());
+                    b.putString(ExpenseDbHelper.DbColumns.DESC, curr.getmDesc());
+                    b.putInt(POSITION, pos);
+                    b.putLong(ExpenseDbHelper.DbColumns._ID, curr.getmID());
+                    dialog.setArguments(b);
+                    dialog.show(mManager.get(), "adapter");
+                }
             }
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return list.size();
     }
 
 }
